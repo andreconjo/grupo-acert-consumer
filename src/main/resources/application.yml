@@ -6,12 +6,12 @@ spring:
     password:
     driver-class-name: org.h2.Driver
     platform: h2
-
-  # enable H2 web console and set url for web console
-  # http://localhost:8080/console
   h2:
     console:
       enabled: true
       path: /console
 server:
   port: 8081
+
+
+conversion: "http://localhost:8080/conversion"

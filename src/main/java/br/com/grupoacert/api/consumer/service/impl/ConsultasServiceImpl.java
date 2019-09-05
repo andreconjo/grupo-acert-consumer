@@ -5,6 +5,7 @@ import br.com.grupoacert.api.consumer.model.ConversionList;
 import br.com.grupoacert.api.consumer.service.ConsultasService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -18,15 +19,16 @@ import java.util.List;
 @Service
 public class ConsultasServiceImpl implements ConsultasService {
 
+    @Value("${conversion}")
+    private String endpoint;
 
     @Override
     public List<Conversion> getAll() throws IOException {
-        URL url = new URL("http://localhost:8080/conversion");
+        URL url = new URL(endpoint);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
         con.setConnectTimeout(5000);
         con.setReadTimeout(5000);
-        int status = con.getResponseCode();
 
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String inputLine;
