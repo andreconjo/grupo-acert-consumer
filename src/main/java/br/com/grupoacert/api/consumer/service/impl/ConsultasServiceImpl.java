@@ -1,10 +1,12 @@
 package br.com.grupoacert.api.consumer.service.impl;
 
 import br.com.grupoacert.api.consumer.model.Conversion;
-import br.com.grupoacert.api.consumer.model.ConversionList;
+import br.com.grupoacert.api.consumer.model.resource.ConversionResource;
+import br.com.grupoacert.api.consumer.model.resource.ConversionResources;
 import br.com.grupoacert.api.consumer.service.ConsultasService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +25,7 @@ public class ConsultasServiceImpl implements ConsultasService {
     private String endpoint;
 
     @Override
-    public List<Conversion> getAll() throws IOException {
+    public ConversionResources getAll() throws IOException {
         URL url = new URL(endpoint);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
@@ -38,7 +40,10 @@ public class ConsultasServiceImpl implements ConsultasService {
         }
         in.close();
 
-        return new ObjectMapper().readValue(content.toString(),  new TypeReference<List<Conversion>>(){});
+        Gson g = new Gson();
+        g.fromJson(content.toString(), ConversionResources.class);
+
+        return g.fromJson(content.toString(), ConversionResources.class);
     }
 
 }
